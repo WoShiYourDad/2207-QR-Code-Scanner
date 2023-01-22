@@ -133,6 +133,8 @@ public class SignUp_Activity extends AppCompatActivity {
 
                             mDatabase.child("users").child(username).setValue(userData);
 
+                            openMainActivity();
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(ACTIVITY_SERVICE, "createUserWithEmail:failure", task.getException());
