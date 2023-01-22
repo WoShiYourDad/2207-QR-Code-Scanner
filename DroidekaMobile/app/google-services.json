@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "652797255137",
+    "firebase_url": "https://ict2207-aefeb-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "ict2207-aefeb",
+    "storage_bucket": "ict2207-aefeb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:652797255137:android:5d8274597a0d516d32c6a0",
+        "android_client_info": {
+          "package_name": "com.droidekamobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "652797255137-m3iu8t4sge4jo5epraicjvnj0jlliml0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1z628LE7GghjEftI5y_uT_9MVI9EOEQo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "652797255137-m3iu8t4sge4jo5epraicjvnj0jlliml0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
