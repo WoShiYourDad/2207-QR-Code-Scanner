@@ -25,5 +25,4 @@
         android:text="Scan something..."
         android:textColor="@android:color/black"/>
 
-
 </RelativeLayout>
