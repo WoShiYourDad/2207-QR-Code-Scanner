@@ -1,7 +1,12 @@
 package com.droidekamobile;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import android.Manifest;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -15,6 +20,7 @@ import com.google.zxing.Result;
 
 public class ScanQR_Activity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
+    private static final int CAMERA_REQUEST_CODE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +51,18 @@ public class ScanQR_Activity extends AppCompatActivity {
                 mCodeScanner.startPreview();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mCodeScanner.startPreview();
+    }
+
+    @Override
+    protected void onPause() {
+        mCodeScanner.releaseResources();
+        super.onPause();
     }
 
 }
