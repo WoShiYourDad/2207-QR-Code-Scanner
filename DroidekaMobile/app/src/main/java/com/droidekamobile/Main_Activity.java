@@ -46,7 +46,7 @@ public class Main_Activity extends AppCompatActivity {
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Main_Activity.this,GenerateQR_Activity.class);
+                Intent i = new Intent(Main_Activity.this,ScanQR_Activity.class);
                 startActivity(i);
             }
         });
@@ -54,7 +54,7 @@ public class Main_Activity extends AppCompatActivity {
         generateQRButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Main_Activity.this,ScanQR_Activity.class);
+                Intent i = new Intent(Main_Activity.this,GenerateQR_Activity.class);
                 startActivity(i);
             }
         });
