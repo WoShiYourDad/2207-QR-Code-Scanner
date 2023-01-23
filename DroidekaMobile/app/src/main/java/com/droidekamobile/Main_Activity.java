@@ -11,7 +11,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class Main_Activity extends AppCompatActivity {
 
-    private Button logoutButton;
+    // Declare button variables
+    private Button scanButton, generateQRButton, historyButton, developerButton, logoutButton;
     private FirebaseAuth mAuth;
 
     @Override
@@ -34,9 +35,27 @@ public class Main_Activity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         //Bind variables to element ID on screen
+        scanButton = (Button) findViewById(R.id.scanButton);
+        generateQRButton = (Button) findViewById(R.id.generateQRButton);
+        historyButton = (Button) findViewById(R.id.historyButton);
+        developerButton = (Button) findViewById(R.id.developerButton);
         logoutButton = (Button) findViewById(R.id.logoutButton);
 
-        //Create Listeners to perform action onClick
+        //Create Listeners to perform action onClick for the different buttons
+        scanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        generateQRButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
