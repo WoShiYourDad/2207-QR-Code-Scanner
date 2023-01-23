@@ -2,6 +2,7 @@ package com.droidekamobile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -45,14 +46,16 @@ public class Main_Activity extends AppCompatActivity {
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent i = new Intent(Main_Activity.this,GenerateQR_Activity.class);
+                startActivity(i);
             }
         });
 
         generateQRButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent i = new Intent(Main_Activity.this,ScanQR_Activity.class);
+                startActivity(i);
             }
         });
 
