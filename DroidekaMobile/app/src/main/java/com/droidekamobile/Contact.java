@@ -3,16 +3,14 @@ package com.droidekamobile;
 import java.util.ArrayList;
 
 public class Contact {
-    public String name, number, type;
-
-    // TODO: Multipe-Contacts and Emails
-    //public ArrayList<ArrayList<String>> contact_number; // Example: [[9068 1333, MOBILE], [6583 1123, HOME]]
-
+    public String name;
+    public ArrayList<ArrayList<String>> contactNumbers; // Example: [[9068 1333, MOBILE], [6583 1123, HOME]]
+    // TODO: Convert contactNumbers to type ArrayList<ContactNumber>
     // I don't even know half of these labels.
     // Anyways, translation of ContactsContract.CommonDataKinds.Phone.DATA2 (as int) to phone labels (as String)
     enum ContactType {
-        MOBILE,
         HOME,
+        MOBILE,
         WORK,
         WORK_FAX,
         HOME_FAX,
@@ -35,11 +33,12 @@ public class Contact {
 
     public Contact() {}
 
-    public Contact(String name, String number, String type) {
+    public Contact(String name, ArrayList<ArrayList<String>> contactNumbers) {
         this.name = name;
-        this.number = number;
-        this.type = ContactType.values()[Integer.parseInt(type)].toString();
+        for (ArrayList<String> contactNumber : contactNumbers) {
+            String contactType = contactNumber.get(1);
+            contactNumber.set(1, ContactType.values()[Integer.parseInt(contactType) - 1].toString());
+        }
+        this.contactNumbers = contactNumbers;
     }
 }
-
-

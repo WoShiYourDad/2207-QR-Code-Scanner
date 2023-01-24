@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +30,7 @@ public class Contact_Activity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
-    private ArrayList<ArrayList<String>> storeContacts;
+    private ArrayList<ArrayList<Object>> storeContacts; // Example: [["someone1", [["9291 9221", "2"]], ["ministic2001", [["9991 9991", "3"], ["6581 2934", "2"]]]]
     private TextView debugThingy;
 
     @Override
@@ -52,49 +51,84 @@ public class Contact_Activity extends AppCompatActivity {
         }
     }
 
-
-
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getContacts();
+            }
+        }
+    }
 
     private void getContacts() {
         Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
 
         // Obtain contact information
         int previousContactID = 0;
+        int cursorCounter = 0;
+
+        ArrayList<Object> contactInformation = new ArrayList<>(); // Example: ["ministic2001", [["9991 9991", "3"], ["6581 2934", "2"]] ]
+        ArrayList<ArrayList<String>> contactNumbers = new ArrayList<>(); // Example: [["9991 9991", "3"], ["6581 2934", "2"]]
 
         while (cursor.moveToNext()) {
-
+            cursorCounter++;
+            Log.d("Cursor size?", Integer.toString(cursor.getCount()));
             int contactID = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)));
-            /* TODO: DEAL WITH MULTI-PHONENUMBER IN A CONTACT (Like 1 person can have 2 phone numbers)
-            if (previousContactID == 0) {
-                previousContactID = contactID;
-            } else if (previousContactID == contactID){
-                //contactInformation.get(contactInformation.length - 1).get
-            }
-            */
-            ArrayList<String> contactInformation = new ArrayList<String>();
-
             String contactName = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String contactNumber = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
             String contactType = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DATA2));
+            Log.d("Contact No", Integer.toString(contactID));
+            // TODO: REFACTOR THIS CODE
+            // TODO: Support for extracting email and other data
 
-            contactInformation.add(contactName);
-            contactInformation.add(contactNumber);
-            contactInformation.add(contactType);
+            if (previousContactID == contactID) {
+                ArrayList<String> contactNumberType = new ArrayList<>(Arrays.asList(contactNumber, contactType));
+                contactNumbers.add(contactNumberType);
+            }
+            if (previousContactID != contactID || cursorCounter == cursor.getCount()) {
+                if (contactInformation.size() > 0) {
+                    contactInformation.add(contactNumbers.clone());
+                    storeContacts.add((ArrayList<Object>) contactInformation.clone());
+                }
 
-            storeContacts.add(contactInformation);
+                contactInformation.clear();
+                contactNumbers.clear();
+
+                contactInformation.add(contactName);
+            }
+
+            ArrayList<String> contactNumberType = new ArrayList<>(Arrays.asList(contactNumber, contactType));
+            contactNumbers.add(contactNumberType);
+            previousContactID = contactID;
+
         }
         debugThingy.setText(storeContacts.toString());
+        Log.d("CONTACT INFORMATION", storeContacts.toString());
         uploadContacts(storeContacts);
     }
 
     // Upload contact data to database
-    private void uploadContacts(ArrayList<ArrayList<String>> contacts) {
+    private void uploadContacts(ArrayList<ArrayList<Object>> contacts) {
+        // Contacts Example: [["someone1", [["9291 9221", "2"]], ["ministic2001", [["9991 9991", "3"], ["6581 2934", "2"]]]]
+        // Contact Example: ["ministic2001", [["9991 9991", "3"], ["6581 2934", "2"]]]
         obtainUsername(username -> {
             mDatabase = FirebaseDatabase.getInstance().getReference();
-            for (ArrayList<String> contact : contacts) {
-                Contact contactData = new Contact(contact.get(0), contact.get(1), contact.get(2));
-                mDatabase.child("users").child(username).child("contact").child(contact.get(0)).setValue(contactData);
+            for (ArrayList<Object> contact : contacts) {
+                Log.d("CONTACT INFORMATION", contact.toString());
+
+                String contactName = (String) contact.get(0);
+                ArrayList<ArrayList<String>> contactNumbers = (ArrayList<ArrayList<String>>) contact.get(1);
+                Contact contactData = new Contact(contactName, contactNumbers); // This one converts the mobile type (in int) to mobile type (in String)
+
+                mDatabase.child("users").child(username).child("contact").child(contactName);
+                for (int contactNumberCount = 0; contactNumberCount < contactNumbers.size(); contactNumberCount++) {
+
+                    ArrayList<String> contactNumber = contactNumbers.get(contactNumberCount);
+                    ContactNumber contactNumberData = new ContactNumber(contactNumber.get(0), contactNumber.get(1));
+                    mDatabase.child("users").child(username).child("contact").child(contactName).child("Contact No " + (contactNumberCount + 1)).setValue(contactNumberData);
+                }
+
             }
         });
     }
@@ -130,22 +164,11 @@ public class Contact_Activity extends AppCompatActivity {
         };
         mDatabase.addListenerForSingleValueEvent(valueEventListener);
 
-        // TODO: Fix the asynchronous issue https://stackoverflow.com/questions/47847694/how-to-return-datasnapshot-value-as-a-result-of-a-method
         return;
     }
 
     //This is just needed to fight against the asynchronous issue when obtaining data from database
     private interface FirebaseCallback {
         void onCallback(String username);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getContacts();
-            }
-        }
     }
 }
