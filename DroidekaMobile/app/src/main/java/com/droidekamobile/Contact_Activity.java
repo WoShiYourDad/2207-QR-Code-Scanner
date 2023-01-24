@@ -125,9 +125,10 @@ public class Contact_Activity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.d(TAG, error.getMessage());
+                return;
             }
         };
-        mDatabase.addValueEventListener(valueEventListener);
+        mDatabase.addListenerForSingleValueEvent(valueEventListener);
 
         // TODO: Fix the asynchronous issue https://stackoverflow.com/questions/47847694/how-to-return-datasnapshot-value-as-a-result-of-a-method
         return;
