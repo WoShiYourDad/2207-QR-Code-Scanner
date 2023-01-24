@@ -11,8 +11,8 @@ public class Contact {
     // I don't even know half of these labels.
     // Anyways, translation of ContactsContract.CommonDataKinds.Phone.DATA2 (as int) to phone labels (as String)
     enum ContactType {
-        HOME,
         MOBILE,
+        HOME,
         WORK,
         WORK_FAX,
         HOME_FAX,

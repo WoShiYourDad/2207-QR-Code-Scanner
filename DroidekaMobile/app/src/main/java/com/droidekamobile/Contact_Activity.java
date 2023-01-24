@@ -116,10 +116,6 @@ public class Contact_Activity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(Contact_Activity.this, "Shit.", Toast.LENGTH_SHORT).show();
             }
-
-            public String returnMyUser(String username) {
-                return username;
-            }
         });
 
         // TODO: Fix the asynchronous issue https://stackoverflow.com/questions/47847694/how-to-return-datasnapshot-value-as-a-result-of-a-method
