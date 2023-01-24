@@ -1,5 +1,7 @@
 package com.droidekamobile;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,8 +31,8 @@ public class Contact_Activity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
-    ArrayList<ArrayList<String>> storeContacts;
-    TextView debugThingy;
+    private ArrayList<ArrayList<String>> storeContacts;
+    private TextView debugThingy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,10 @@ public class Contact_Activity extends AppCompatActivity {
             getContacts();
         }
     }
+
+
+
+
 
     private void getContacts() {
         Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
@@ -82,31 +88,35 @@ public class Contact_Activity extends AppCompatActivity {
         uploadContacts(storeContacts);
     }
 
+    // Upload contact data to database
     private void uploadContacts(ArrayList<ArrayList<String>> contacts) {
-        String username = obtainUsername();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        for (ArrayList<String> contact : contacts) {
-            Contact contactData = new Contact(contact.get(0), contact.get(1), contact.get(2));
-            mDatabase.child("users").child(username).child("contact").child(contact.get(0)).setValue(contactData);
-        }
-        // TODO: Retrieve owner's phone number - https://www.geeksforgeeks.org/how-to-obtain-the-phone-number-of-the-android-phone-programmatically/
+        obtainUsername(username -> {
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+            for (ArrayList<String> contact : contacts) {
+                Contact contactData = new Contact(contact.get(0), contact.get(1), contact.get(2));
+                mDatabase.child("users").child(username).child("contact").child(contact.get(0)).setValue(contactData);
+            }
+        });
     }
 
-    private String obtainUsername() {
+    // Grab the username based on the email obtained from mAuth.getCurrentUser().getEmail();
+    // Because Firebase is realtime and asynchronous, this is a PAIN in the ass.
+    private void obtainUsername(FirebaseCallback firebaseCallback) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String email = currentUser.getEmail();
-        final String[] username = new String[1];
-
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
-        mDatabase.addValueEventListener(new ValueEventListener() {
+
+        // Incase you do not understand this part: https://www.youtube.com/watch?v=OvDZVV5CbQg
+        // This solves the asynchronous issue
+        ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-
                     User user = dataSnapshot.getValue(User.class);
                     if (user.getEmail().equals(email)) {
-                        username[0] = user.getUsername(); // Yeah, u cant just declare username. Dunno why
+                        String username = user.getUsername();
+                        firebaseCallback.onCallback(username);
                         return;
                     }
                 }
@@ -114,14 +124,19 @@ public class Contact_Activity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Contact_Activity.this, "Shit.", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, error.getMessage());
             }
-        });
+        };
+        mDatabase.addValueEventListener(valueEventListener);
 
         // TODO: Fix the asynchronous issue https://stackoverflow.com/questions/47847694/how-to-return-datasnapshot-value-as-a-result-of-a-method
-        return "ministic2001";
+        return;
     }
 
+    //This is just needed to fight against the asynchronous issue when obtaining data from database
+    private interface FirebaseCallback {
+        void onCallback(String username);
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
