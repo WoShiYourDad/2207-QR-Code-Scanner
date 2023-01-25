@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -34,7 +35,6 @@ public class ScanQR_Activity extends AppCompatActivity {
     private TextView scanDisplay;
     private Button share;
     String def = "Scan something!";
-    private TextView debug;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,6 @@ public class ScanQR_Activity extends AppCompatActivity {
             //Bind variables to element ID on screen
             CodeScannerView scannerView = findViewById(R.id.scanner_view);
             scanDisplay = (TextView) findViewById(R.id.scan_Display);
-            debug = (TextView) findViewById(R.id.test);
             share = (Button) findViewById(R.id.share_Button);
 
             //set default text for the scan result textview
@@ -132,7 +131,13 @@ public class ScanQR_Activity extends AppCompatActivity {
     public void shareFeature(){
         // Check if contact permission is granted, if so then run
         if (checkContactPermission()) {
-            debug.setText("shared");
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, scanDisplay.getText());
+            sendIntent.setType("text/plain");
+
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
         }
         else{
             requestContactPermission();
