@@ -17,6 +17,13 @@
         android:theme="@style/Theme.DroidekaMobile"
         tools:targetApi="31">
         <activity
+            android:name=".Developer_Activity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Contact_Activity"
             android:exported="false">
             <meta-data

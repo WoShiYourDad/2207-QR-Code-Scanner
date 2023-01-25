@@ -38,7 +38,6 @@ public class Main_Activity extends AppCompatActivity {
         //Bind variables to element ID on screen
         scanButton = (Button) findViewById(R.id.scanButton);
         generateQRButton = (Button) findViewById(R.id.generateQRButton);
-        historyButton = (Button) findViewById(R.id.historyButton);
         developerButton = (Button) findViewById(R.id.developerButton);
         contactButton = (Button) findViewById(R.id.contactButton);
         logoutButton = (Button) findViewById(R.id.logoutButton);
@@ -56,6 +55,14 @@ public class Main_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Main_Activity.this,GenerateQR_Activity.class);
+                startActivity(i);
+            }
+        });
+
+        developerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Main_Activity.this,Developer_Activity.class);
                 startActivity(i);
             }
         });
