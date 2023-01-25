@@ -14,7 +14,9 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Button;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
@@ -22,10 +24,17 @@ import com.budiyev.android.codescanner.DecodeCallback;
 import com.budiyev.android.codescanner.ScanMode;
 import com.google.zxing.Result;
 
+import org.w3c.dom.Text;
+
 
 public class ScanQR_Activity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     private static final int PERMISSION_REQUEST_CODE = 200;
+    public static final int PERMISSIONS_REQUEST_READ_CONTACTS = 1;
+    private TextView scanDisplay;
+    private Button share;
+    String def = "Scan something!";
+    private TextView debug;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +45,12 @@ public class ScanQR_Activity extends AppCompatActivity {
         if (checkPermission()) {
             //Bind variables to element ID on screen
             CodeScannerView scannerView = findViewById(R.id.scanner_view);
+            scanDisplay = (TextView) findViewById(R.id.scan_Display);
+            debug = (TextView) findViewById(R.id.test);
+            share = (Button) findViewById(R.id.share_Button);
+
+            //set default text for the scan result textview
+            scanDisplay.setText(def);
 
             mCodeScanner = new CodeScanner(this, scannerView);
             mCodeScanner.setScanMode(ScanMode.CONTINUOUS);
@@ -45,7 +60,10 @@ public class ScanQR_Activity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(ScanQR_Activity.this, result.getText(), Toast.LENGTH_SHORT).show();
+                            // TODO: perform regex on the decoded input of the qr and change valid links to hyperlinks
+                            scanDisplay.setText(result.getText());
+                            share.setVisibility(View.VISIBLE);
+                            //Toast.makeText(ScanQR_Activity.this, result.getText(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -58,6 +76,11 @@ public class ScanQR_Activity extends AppCompatActivity {
                     mCodeScanner.startPreview();
                 }
             });
+            share.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) { shareFeature(); }
+            });
+
         } else { //if camera permission is not permitted
             requestPermission();
         }
@@ -91,6 +114,31 @@ public class ScanQR_Activity extends AppCompatActivity {
                 PERMISSION_REQUEST_CODE);
     }
 
+    private boolean checkContactPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+            return false;
+        }
+        return true;
+    }
+
+    private void requestContactPermission() {
+
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.READ_CONTACTS},
+                PERMISSIONS_REQUEST_READ_CONTACTS);
+    }
+
+    public void shareFeature(){
+        // Check if contact permission is granted, if so then run
+        if (checkContactPermission()) {
+            debug.setText("shared");
+        }
+        else{
+            requestContactPermission();
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -110,6 +158,29 @@ public class ScanQR_Activity extends AppCompatActivity {
                                         public void onClick(DialogInterface dialog, int which) {
                                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                                 requestPermission();
+                                            }
+                                        }
+                                    });
+                        }
+                    }
+                }
+                break;
+
+            case PERMISSIONS_REQUEST_READ_CONTACTS:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
+
+                    // main logic
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+                            showMessageOKCancel("You need to allow access permissions",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                requestContactPermission();
                                             }
                                         }
                                     });
