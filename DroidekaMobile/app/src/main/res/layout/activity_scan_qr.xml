@@ -41,11 +41,4 @@
         android:text="@string/share"
         android:visibility="invisible" />
 
-    <TextView
-        android:id="@+id/test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/scan_Display"
-        android:text="blank" />
-
 </RelativeLayout>
