@@ -44,8 +44,6 @@
         android:layout_marginRight="15dp"
         android:hint="Add text to embed in QR Code"
         android:padding="5dp"
-        android:textColorHint="@color/black"
-        app:hintTextColor="@color/black"
         >
 
         <com.google.android.material.textfield.TextInputEditText
