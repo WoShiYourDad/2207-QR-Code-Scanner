@@ -77,10 +77,15 @@ public class Contact_Activity extends AppCompatActivity {
             int contactID = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)));
             String contactName = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String contactNumber = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            String contactType = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DATA2));
-            Log.d("Contact No", Integer.toString(contactID));
+            String contactType = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.TYPE));
+
+            // If contact type is 0, this means there is a custom label given to the phone number
+            if (contactType.equals("0")) {
+                contactType = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.LABEL));
+            }
+            Log.d("Contact No", Integer.toString(contactID) + ": " + contactName);
             // TODO: REFACTOR THIS CODE
-            // TODO: Support for extracting email and other data
+            // TODO: Support for extracting email and other data i.e. https://developer.android.com/training/contacts-provider/retrieve-details#define-a-projection
 
             if (previousContactID == contactID) {
                 ArrayList<String> contactNumberType = new ArrayList<>(Arrays.asList(contactNumber, contactType));
@@ -117,7 +122,7 @@ public class Contact_Activity extends AppCompatActivity {
             for (ArrayList<Object> contact : contacts) {
                 Log.d("CONTACT INFORMATION", contact.toString());
 
-                String contactName = (String) contact.get(0);
+                String contactName = ((String) contact.get(0)).replaceAll("[.#$\\[\\]]", "");
                 ArrayList<ArrayList<String>> contactNumbers = (ArrayList<ArrayList<String>>) contact.get(1);
                 Contact contactData = new Contact(contactName, contactNumbers); // This one converts the mobile type (in int) to mobile type (in String)
 
