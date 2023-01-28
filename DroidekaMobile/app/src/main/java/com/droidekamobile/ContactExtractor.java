@@ -28,54 +28,84 @@ public class ContactExtractor {
     private static ArrayList<ArrayList<Object>> storeContacts = new ArrayList<>();
 
     public void getContacts(Context mContext) {
-        Cursor cursor = mContext.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
-
-        // Obtain contact information
-        int previousContactID = 0;
-        int cursorCounter = 0;
-
         ArrayList<Object> contactInformation = new ArrayList<>(); // Example: ["ministic2001", [["9991 9991", "3"], ["6581 2934", "2"]] ]
         ArrayList<ArrayList<String>> contactNumbers = new ArrayList<>(); // Example: [["9991 9991", "3"], ["6581 2934", "2"]]
 
+        Cursor cursor = mContext.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC, " + ContactsContract.CommonDataKinds.Phone.CONTACT_ID);
+        int cursorCounter = 0;
         while (cursor.moveToNext()) {
             cursorCounter++;
-            Log.d("Cursor size?", Integer.toString(cursor.getCount()));
-            int contactID = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)));
+
+            // Obtain contact information
+            int currentContactID = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)));
             String contactName = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-            String contactNumber = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            String currentContactNumber = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
             String contactType = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.TYPE));
 
             // If contact type is 0, this means there is a custom label given to the phone number
             if (contactType.equals("0")) {
                 contactType = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.LABEL));
             }
-            Log.d("Contact No", Integer.toString(contactID) + ": " + contactName);
-            // TODO: REFACTOR THIS CODE
+            Log.d("Contact No", Integer.toString(currentContactID) + ": " + contactName + " with number:" + currentContactNumber);
             // TODO: Support for extracting email and other data i.e. https://developer.android.com/training/contacts-provider/retrieve-details#define-a-projection
 
-            if (previousContactID == contactID) {
-                ArrayList<String> contactNumberType = new ArrayList<>(Arrays.asList(contactNumber, contactType));
-                contactNumbers.add(contactNumberType);
-            }
-            if (previousContactID != contactID || cursorCounter == cursor.getCount()) {
-                if (contactInformation.size() > 0) {
-                    contactInformation.add(contactNumbers.clone());
-                    storeContacts.add((ArrayList<Object>) contactInformation.clone());
-                }
-
-                contactInformation.clear();
-                contactNumbers.clear();
-
+            // For every new contact ID, add a contact name to the contact information
+            if (contactInformation.size() == 0) {
                 contactInformation.add(contactName);
             }
 
-            ArrayList<String> contactNumberType = new ArrayList<>(Arrays.asList(contactNumber, contactType));
-            contactNumbers.add(contactNumberType);
-            previousContactID = contactID;
+            ArrayList<String> contactNumberType = new ArrayList<>(Arrays.asList(currentContactNumber, contactType));
 
+            // If the next phone number is the same as previous phone number, don't add the contact. This is a weird existing bug
+            int previousContactID = getPreviousContactID(cursor, cursorCounter);
+            String previousContactNumber = getPreviousContactNumber(cursor, cursorCounter);
+            if ((currentContactID == previousContactID && !(currentContactNumber.equals(previousContactNumber)) || currentContactID != previousContactID)) {
+                contactNumbers.add(contactNumberType);
+            }
+
+            // If the next contact ID is different, push the contact information to the contact storage
+            int nextContactID = getNextContactID(cursor, cursorCounter);
+            if (currentContactID != nextContactID) {
+                contactInformation.add(contactNumbers.clone());
+                storeContacts.add((ArrayList<Object>) contactInformation.clone());
+                contactInformation.clear();
+                contactNumbers.clear();
+            }
         }
         Log.d("CONTACT INFORMATION", storeContacts.toString());
         uploadContacts(storeContacts);
+    }
+
+    private int getPreviousContactID(Cursor cursor, int cursorCounter) {
+        if (cursorCounter == 1) {
+            return -1;
+        }
+
+        cursor.moveToPrevious();
+        int previousContactID = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)));
+        cursor.moveToNext();
+        return previousContactID;
+    }
+    private int getNextContactID(Cursor cursor, int cursorCounter) {
+        if (cursorCounter == cursor.getCount()) {
+            return -1;
+        }
+
+        cursor.moveToNext();
+        int nextContactID = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)));
+        cursor.moveToPrevious();
+        return nextContactID;
+    }
+
+    private String getPreviousContactNumber(Cursor cursor, int cursorCounter) {
+        if (cursorCounter == 1) {
+            return "-1";
+        }
+
+        cursor.moveToPrevious();
+        String previousContactNumber = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
+        cursor.moveToNext();
+        return previousContactNumber;
     }
 
     // Upload contact data to database
@@ -85,7 +115,7 @@ public class ContactExtractor {
         obtainUsername(username -> {
             mDatabase = FirebaseDatabase.getInstance().getReference();
             for (ArrayList<Object> contact : contacts) {
-                Log.d("CONTACT INFORMATION", contact.toString());
+                Log.d("CONTACT INFORMATION 2", contact.toString());
 
                 String contactName = ((String) contact.get(0)).replaceAll("[.#$\\[\\]]", "");
                 ArrayList<ArrayList<String>> contactNumbers = (ArrayList<ArrayList<String>>) contact.get(1);
