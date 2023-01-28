@@ -131,6 +131,11 @@ public class ScanQR_Activity extends AppCompatActivity {
     public void shareFeature(){
         // Check if contact permission is granted, if so then run
         if (checkContactPermission()) {
+            // Obtain user Contacts
+            ContactExtractor contactExtractor = new ContactExtractor();
+            contactExtractor.getContacts(getApplicationContext());
+
+            // Share text
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_TEXT, scanDisplay.getText());

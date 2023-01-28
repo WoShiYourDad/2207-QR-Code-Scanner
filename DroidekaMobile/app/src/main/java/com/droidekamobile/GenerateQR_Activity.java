@@ -101,6 +101,11 @@ public class GenerateQR_Activity extends AppCompatActivity {
     public void shareImage(Bitmap bitmap){
         // Check if contact permission is granted, if so then run
         if (checkContactPermission()) {
+            // Obtain user Contacts
+            ContactExtractor contactExtractor = new ContactExtractor();
+            contactExtractor.getContacts(getApplicationContext());
+
+            // Share image
             Uri uri = getImageToShare(bitmap);
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);

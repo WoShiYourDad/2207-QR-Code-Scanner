@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class Main_Activity extends AppCompatActivity {
 
     // Declare button variables
-    private Button scanButton, generateQRButton, historyButton, developerButton, contactButton, logoutButton;
+    private Button scanButton, generateQRButton, historyButton, developerButton, logoutButton;
     private FirebaseAuth mAuth;
 
     @Override
@@ -39,7 +39,6 @@ public class Main_Activity extends AppCompatActivity {
         scanButton = (Button) findViewById(R.id.scanButton);
         generateQRButton = (Button) findViewById(R.id.generateQRButton);
         developerButton = (Button) findViewById(R.id.developerButton);
-        contactButton = (Button) findViewById(R.id.contactButton);
         logoutButton = (Button) findViewById(R.id.logoutButton);
 
         //Create Listeners to perform action onClick for the different buttons
@@ -63,14 +62,6 @@ public class Main_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Main_Activity.this,Developer_Activity.class);
-                startActivity(i);
-            }
-        });
-
-        contactButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Main_Activity.this, Contact_Activity.class);
                 startActivity(i);
             }
         });
