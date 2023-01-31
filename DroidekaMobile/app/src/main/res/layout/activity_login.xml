@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".Login_Activity">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView"
@@ -13,6 +23,7 @@
         android:layout_height="wrap_content"
         android:text="Log In"
         android:textAlignment="center"
+        android:textColor="@color/purple_500"
         android:textSize="35dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -58,7 +69,7 @@
         android:backgroundTint="@color/white"
         android:text="Sign Up"
 
-        android:textColor="@color/purple_500"
+        android:textColor="@color/purple_200"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
@@ -71,6 +82,8 @@
         android:layout_width="286dp"
         android:layout_height="58dp"
         android:layout_marginBottom="148dp"
+        android:backgroundTint="@color/purple_200"
+        android:backgroundTintMode="add"
         android:text="Log In"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

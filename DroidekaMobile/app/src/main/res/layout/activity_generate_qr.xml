@@ -4,7 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GenerateQR_Activity">
+    tools:context=".GenerateQR_Activity"
+
+    android:id="@+id/imageView"
+    android:scaleType="centerCrop"
+    android:background="@drawable/background"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    >
 
     <FrameLayout
         android:layout_width="258dp"
@@ -25,6 +34,7 @@
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="15sp"/>
+
         <ImageView
             android:id="@+id/idIVQRCode"
             android:layout_width="258dp"
@@ -65,11 +75,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/idTILData"
         android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/purple_200"
         android:text="Generate QR Code"
-        android:textAllCaps="false"/>
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/share_new_qr"
