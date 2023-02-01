@@ -32,14 +32,16 @@
 
     <TextView
         android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        android:text="About me.."
+        android:layout_width="350dp"
+        android:layout_height="476dp"
+        android:layout_marginTop="52dp"
+        android:text="Hello! My name is Jun Hong. I am currently studying in SIT Information Security. Some of my hobbies are playing football, badminton and many other sports! I have a growing interest in unveiling secrets, things like ethical hacking and digital forensics excites me. This mobile application is build by all six of us, hope you enjoy using this application and do share it with all your friends!"
         android:textColor="@color/purple_500"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
