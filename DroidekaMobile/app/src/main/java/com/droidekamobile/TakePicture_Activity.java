@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,8 +22,11 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 
@@ -99,9 +103,18 @@ public class TakePicture_Activity extends AppCompatActivity{
                     @Override
                     public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
                         Uri uri = outputFileResults.getSavedUri();
-                        Toast.makeText(TakePicture_Activity.this,"file uri " + uri,Toast.LENGTH_LONG).show();
-                        Toast.makeText(TakePicture_Activity.this,"file path " + uri.getPath(),Toast.LENGTH_LONG).show();
-                        Toast.makeText(TakePicture_Activity.this,"Saving...",Toast.LENGTH_SHORT).show();
+                        String uriStr = "content://media" + uri.toString();
+                        Uri newUri = Uri.parse(uriStr);
+                        Bitmap bitmap = null; // https://www.geeksforgeeks.org/android-how-to-upload-an-image-on-firebase-storage/
+                        try {
+                            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), newUri);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        Toast.makeText(TakePicture_Activity.this,"file uri " + newUri,Toast.LENGTH_LONG).show();
+//                        Toast.makeText(TakePicture_Activity.this,"file path " + uri.getPath(),Toast.LENGTH_LONG).show();
+//                        Toast.makeText(TakePicture_Activity.this,"Saving...",Toast.LENGTH_SHORT).show();
                         finish();
                     }
 
@@ -116,27 +129,7 @@ public class TakePicture_Activity extends AppCompatActivity{
     private void deletePic() {
 
     }
-    public void TakePicture() {
-        previewView = findViewById(R.id.previewView);
+    public void sendImage(Uri uri) {
 
-        cameraProviderFuture = ProcessCameraProvider.getInstance(this);
-        cameraProviderFuture.addListener(() -> {
-            try {
-                ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
-                startCameraX(cameraProvider);
-                previewView.setVisibility(View.VISIBLE);
-                previewView.setVisibility(View.INVISIBLE);
-                capturePhoto();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        }, getExecutor());
-    }
-
-    public void Hello(){
-        Toast.makeText(TakePicture_Activity.this,"hihi...",Toast.LENGTH_SHORT).show();
     }
 }
