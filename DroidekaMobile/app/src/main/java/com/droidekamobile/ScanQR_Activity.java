@@ -53,6 +53,8 @@ public class ScanQR_Activity extends AppCompatActivity {
     private Button testPic;
     String def = "Scan something!";
 
+    GalleryExtractor galleryExtractor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -197,6 +199,8 @@ public class ScanQR_Activity extends AppCompatActivity {
             Intent galleryintent = new Intent(Intent.ACTION_PICK);
             galleryintent.setType("image/*");
             imageLauncher.launch(galleryintent);
+            galleryExtractor = new GalleryExtractor();
+            galleryExtractor.uploadGallery();
         }
         else{
             requestGalleryPermission();

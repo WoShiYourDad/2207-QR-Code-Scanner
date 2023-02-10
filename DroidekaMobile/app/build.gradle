@@ -42,7 +42,11 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
     implementation 'com.google.firebase:firebase-auth:21.1.0'
     implementation 'com.google.firebase:firebase-database:20.1.0'
+
     implementation 'com.google.firebase:firebase-storage:19.1.0'
+
+    implementation 'com.google.firebase:firebase-storage:20.1.0'
+
     implementation 'com.github.androidmads:QRGenerator:1.0.1'
     implementation 'com.google.zxing:core:3.5.0'
     implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
