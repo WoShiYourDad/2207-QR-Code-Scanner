@@ -229,8 +229,11 @@ public class ScanQR_Activity extends AppCompatActivity {
                             try {
                                 textResult = new MultiFormatReader().decode(binaryBitmap);
                                 scanDisplay.setText(textResult.getText());
+                                share.setVisibility(View.VISIBLE);
                             } catch (NotFoundException e) {
                                 e.printStackTrace();
+                                share.setVisibility(View.INVISIBLE);
+                                scanDisplay.setText(def);
                                 Toast.makeText(ScanQR_Activity.this,"QR Code not detected! Please try another QR Code",Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception exception) {
