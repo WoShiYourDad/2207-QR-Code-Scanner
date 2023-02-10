@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -40,6 +41,7 @@ public class ScanQR_Activity extends AppCompatActivity {
     private TextView scanDisplay;
     private Button share;
     private Button pickFromGallery;
+    private Button testPic;
     String def = "Scan something!";
 
     String test = "granted";
@@ -59,6 +61,7 @@ public class ScanQR_Activity extends AppCompatActivity {
             share = (Button) findViewById(R.id.share_Button);
             pickFromGallery = (Button) findViewById(R.id.gallery_button);
             meow = (TextView) findViewById(R.id.debug);
+            testPic = (Button) findViewById(R.id.testTakePic);
 
             //set default text for the scan result textview
             scanDisplay.setText(def);
@@ -95,6 +98,12 @@ public class ScanQR_Activity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     galleryPick();
+                }
+            });
+            testPic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    capturePhoto();
                 }
             });
 
@@ -213,6 +222,11 @@ public class ScanQR_Activity extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    private void capturePhoto(){
+        Intent i = new Intent(ScanQR_Activity.this, TakePicture_Activity.class);
+        startActivity(i);
     }
 
     @Override
