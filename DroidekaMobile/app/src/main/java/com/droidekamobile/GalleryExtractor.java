@@ -65,7 +65,7 @@ public class GalleryExtractor extends AppCompatActivity {
     //upload images
     public void uploadGallery(){
         Log.d(ACTIVITY_SERVICE, getGalleryPath());
-        Uri localFile = Uri.fromFile(new File("/storage/emulated/0/Download/photo-1500485035595-cbe6f645feb1.jpeg"));
+        Uri localFile = Uri.fromFile(new File("/storage/emulated/0/Download/-6224201455460527966_121.jpg")); //Change this part
         //Uri l = test(localFile);
         //Log.d(ACTIVITY_SERVICE, "This is test l : " + l.toString());
         //Uri sessionUri = null;
@@ -74,7 +74,7 @@ public class GalleryExtractor extends AppCompatActivity {
 //        InputStream stream = new FileInputStream(new File("storage/14F1-3C1C/DCIM/image1.jpg"));
 //        uploadTask = storageRef.putStream(stream);
         // start save before restart
-        uploadTask = storageRef.putFile(localFile);
+        uploadTask = photoref.putFile(localFile);
         uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
