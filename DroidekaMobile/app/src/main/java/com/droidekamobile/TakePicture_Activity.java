@@ -39,10 +39,12 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class TakePicture_Activity extends AppCompatActivity{
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
@@ -104,67 +106,54 @@ public class TakePicture_Activity extends AppCompatActivity{
     }
 
     private void capturePhoto() {
-        long timeStamp = System.currentTimeMillis();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, timeStamp);
-        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
-        contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + "/testfile");
-
-        imageCapture.takePicture(
-                new ImageCapture.OutputFileOptions.Builder(
-                        getContentResolver(),
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        contentValues
-                ).build(),
-                getExecutor(),
-                new ImageCapture.OnImageSavedCallback() {
-                    @Override
-                    public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                        Uri uri = outputFileResults.getSavedUri();
-
-                        Bitmap bitmap = null; // https://www.geeksforgeeks.org/android-how-to-upload-an-image-on-firebase-storage/
-                        try {
-                            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                            sendImage(bitmap);
-                            Log.d("HERE2", "HERE2");
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            Log.d("HERE3", "HERE3");
+        if (imageCapture != null) {
+            ByteArrayOutputStream result = new ByteArrayOutputStream();
+            getCacheDir();
+            imageCapture.takePicture(new ImageCapture.OutputFileOptions.Builder(result).build(),
+                    Executors.newSingleThreadExecutor(),
+                    new ImageCapture.OnImageSavedCallback() {
+                        @Override
+                        public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+                            Long timeStampLong = System.currentTimeMillis()/1000;
+                            String timeStamp = timeStampLong.toString();
+                            String dir = getCacheDir().getAbsolutePath();
+                            String path = dir + "/" + timeStamp + ".png";
+                            Uri pathUri = Uri.parse(path);
+                            File cache = new File(path);
+                            try (FileOutputStream stream = new FileOutputStream(cache)) {
+                                stream.write(result.toByteArray());
+//                                upload function here
+                                sendImage(path);
+//                                cache.delete();
+                                finish();
+                            } catch (Exception e) {
+                                Log.e("TAG", "onImageSaved: Exception occurred", e);
+                            }
                         }
 
-                        Toast.makeText(TakePicture_Activity.this,"file uri " + uri,Toast.LENGTH_LONG).show();
-//                        Toast.makeText(TakePicture_Activity.this,"file path " + uri.getPath(),Toast.LENGTH_LONG).show();
-//                        Toast.makeText(TakePicture_Activity.this,"Saving...",Toast.LENGTH_SHORT).show();
-
-                        finish();
-                    }
-
-                    @Override
-                    public void onError(@NonNull ImageCaptureException exception) {
-                        Toast.makeText(TakePicture_Activity.this,"Error: "+exception.getMessage(),Toast.LENGTH_SHORT).show();
-                    }
-                });
-
+                        @Override
+                        public void onError(@NonNull ImageCaptureException exception) {
+                            Log.i("TAG", "onError: ", exception);
+                        }
+                    });
+        }
     }
 
-    private void deletePic() {
-
-    }
-
-    public void sendImage(Bitmap bitmap) { //https://stackoverflow.com/questions/40885860/how-to-save-bitmap-to-firebase
+    public void sendImage(String path) { //https://stackoverflow.com/questions/40885860/how-to-save-bitmap-to-firebase
         obtainUsername(username -> {
+            Uri file = Uri.fromFile(new File(path));
             StorageReference imageRef = mStorage.getReference().child(username).child("Images").child("images/"+ UUID.randomUUID().toString());
-            Log.d("HERE3", "HERE3");
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-            byte[] data = baos.toByteArray();
+            Log.e("HERE3", "HERE3");
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+//            byte[] data = baos.toByteArray();
 
-            UploadTask uploadTask = imageRef.putBytes(data);
+            UploadTask uploadTask = imageRef.putFile(file);
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
                     // Handle unsuccessful uploads
-                    Log.d("HEREFAIL", "HEREFAIL");
+                    Log.e("HEREFAIL", "HEREFAIL");
                 }
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
