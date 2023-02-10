@@ -15,9 +15,11 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,8 +29,15 @@ import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.budiyev.android.codescanner.ScanMode;
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.LuminanceSource;
+import com.google.zxing.MultiFormatReader;
+import com.google.zxing.NotFoundException;
+import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.Result;
+import com.google.zxing.common.HybridBinarizer;
 
+import java.io.IOException;
 
 
 public class ScanQR_Activity extends AppCompatActivity {
@@ -36,17 +45,13 @@ public class ScanQR_Activity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CAMERA = 200;
     public static final int PERMISSIONS_REQUEST_READ_CONTACTS = 1;
     public static final int PERMISSIONS_REQUEST_ACCESS_GALLERY = 2;
-    public static final int PICK_IMAGE = 100;
+
     ActivityResultLauncher<Intent> imageLauncher;
     private TextView scanDisplay;
     private Button share;
     private Button pickFromGallery;
     private Button testPic;
     String def = "Scan something!";
-
-    String test = "granted";
-    String testing = "success";
-    private TextView meow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +65,7 @@ public class ScanQR_Activity extends AppCompatActivity {
             scanDisplay = (TextView) findViewById(R.id.scan_Display);
             share = (Button) findViewById(R.id.share_Button);
             pickFromGallery = (Button) findViewById(R.id.gallery_button);
-            meow = (TextView) findViewById(R.id.debug);
+
             testPic = (Button) findViewById(R.id.testTakePic);
 
             //set default text for the scan result textview
@@ -96,9 +101,7 @@ public class ScanQR_Activity extends AppCompatActivity {
             registerImage();
             pickFromGallery.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    galleryPick();
-                }
+                public void onClick(View view) { galleryPick(); }
             });
             testPic.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -106,11 +109,9 @@ public class ScanQR_Activity extends AppCompatActivity {
                     capturePhoto();
                 }
             });
-
         } else { //if camera permission is not permitted
             requestCameraPermission();
         }
-
     }
 
     @Override
@@ -164,7 +165,6 @@ public class ScanQR_Activity extends AppCompatActivity {
     }
 
     private void requestGalleryPermission() {
-
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                 PERMISSIONS_REQUEST_ACCESS_GALLERY);
@@ -194,8 +194,6 @@ public class ScanQR_Activity extends AppCompatActivity {
     private void galleryPick(){
         // Check if gallery access is granted
         if (checkGalleryPermission()) {
-            meow.setText(test);
-
             Intent galleryintent = new Intent(Intent.ACTION_PICK);
             galleryintent.setType("image/*");
             imageLauncher.launch(galleryintent);
@@ -212,9 +210,29 @@ public class ScanQR_Activity extends AppCompatActivity {
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         try{
-                            Uri imageUri = result.getData().getData();
-                            //code for scanner to process this image
-                            meow.setText(testing);
+                            Intent resultData = result.getData();
+                            Uri virtualFilePath = resultData.getData(); // Content uri
+
+                            Bitmap bitmap = null;
+                            try {
+                                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), virtualFilePath);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            int[] intArray = new int[bitmap.getWidth() * bitmap.getHeight()];
+                            bitmap.getPixels(intArray, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+                            LuminanceSource source = new RGBLuminanceSource(bitmap.getWidth(), bitmap.getHeight(),intArray);
+
+                            BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(source));
+                            Result textResult = null;
+                            try {
+                                textResult = new MultiFormatReader().decode(binaryBitmap);
+                                scanDisplay.setText(textResult.getText());
+                            } catch (NotFoundException e) {
+                                e.printStackTrace();
+                                Toast.makeText(ScanQR_Activity.this,"QR Code not detected! Please try another QR Code",Toast.LENGTH_SHORT).show();
+                            }
                         } catch (Exception exception) {
                             exception.getStackTrace();
                             Toast.makeText(ScanQR_Activity.this,"No image was selected",Toast.LENGTH_SHORT).show();
