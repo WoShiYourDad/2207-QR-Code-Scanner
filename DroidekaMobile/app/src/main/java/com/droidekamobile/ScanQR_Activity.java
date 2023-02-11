@@ -21,6 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
@@ -49,7 +50,7 @@ public class ScanQR_Activity extends AppCompatActivity {
 
     ActivityResultLauncher<Intent> imageLauncher;
     private TextView scanDisplay;
-    private Button share;
+    private ImageButton share;
     private Button pickFromGallery;
     String def = "Scan something!";
 
@@ -65,7 +66,7 @@ public class ScanQR_Activity extends AppCompatActivity {
             //Bind variables to element ID on screen
             CodeScannerView scannerView = findViewById(R.id.scanner_view);
             scanDisplay = (TextView) findViewById(R.id.scan_Display);
-            share = (Button) findViewById(R.id.share_Button);
+            share = (ImageButton) findViewById(R.id.share_Button);
             pickFromGallery = (Button) findViewById(R.id.gallery_button);
 
             //set default text for the scan result textview
