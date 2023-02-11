@@ -44,9 +44,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gallery_button"
-        app:srcCompat="@drawable/ic_baseline_share_64"
-        tools:layout_editor_absoluteX="161dp" />
+        app:srcCompat="@drawable/ic_baseline_share_64" />
 
     <Button
         android:id="@+id/gallery_button"
