@@ -37,7 +37,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView_JunHong"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="match_parent"
                 android:backgroundTint="@color/dark_gray"
                 android:layout_marginBottom="10dp"
                 app:cardCornerRadius="15dp">
@@ -61,13 +61,13 @@
                     <TextView
                         android:id="@+id/textView_Description_JunHong"
                         android:layout_width="215dp"
-                        android:layout_height="71dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:layout_weight="1"
                         android:ellipsize="none"
-                        android:maxLines="4"
+                        android:maxLines="3"
                         android:scrollHorizontally="false"
-                        android:text="Hello I am Jun Hong and I like to procrastinate"
+                        android:text="Hello I am Jun Hong and I like to procrastinate wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww dwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww wwwwwwwwwwwwwwwwwwwwwwwwwwwww"
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -79,10 +79,12 @@
                         android:id="@+id/imageView_JunHong"
                         android:layout_width="130dp"
                         android:layout_height="130dp"
+                        android:src="@drawable/junhong"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:src="@drawable/junhong" />
+                        app:layout_constraintVertical_bias="0.0" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
@@ -90,7 +92,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView_Zafran"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="match_parent"
                 android:backgroundTint="@color/dark_gray"
                 android:layout_marginBottom="10dp"
                 app:cardCornerRadius="15dp">
@@ -115,13 +117,13 @@
                     <TextView
                         android:id="@+id/textView_Description_Zafran"
                         android:layout_width="215dp"
-                        android:layout_height="71dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:layout_weight="1"
                         android:ellipsize="none"
                         android:maxLines="4"
                         android:scrollHorizontally="false"
-                        android:text="Hello I am Jun Hong and I like to procrastinate"
+                        android:text="Hello I am Jun Hong and I like to procrastinate wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww dwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww wwwwwwwwwwwwwwwwwwwwwwwwwwwww"
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -136,7 +138,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:src="@drawable/zafran" />
+                        android:src="@drawable/zafran"
+                        app:layout_constraintVertical_bias="0.0"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
@@ -144,7 +147,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView_ShaoXuan"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="match_parent"
                 android:backgroundTint="@color/dark_gray"
                 android:layout_marginBottom="10dp"
                 app:cardCornerRadius="15dp">
@@ -168,13 +171,13 @@
                     <TextView
                         android:id="@+id/textView_Description_ShaoXuan"
                         android:layout_width="215dp"
-                        android:layout_height="71dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:layout_weight="1"
                         android:ellipsize="none"
                         android:maxLines="4"
                         android:scrollHorizontally="false"
-                        android:text="Hello I am Jun Hong and I like to procrastinate"
+                        android:text="Hello I am Jun Hong and I like to procrastinate wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww dwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww wwwwwwwwwwwwwwwwwwwwwwwwwwwww"
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -189,7 +192,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:src="@drawable/sxflipped" />
+                        android:src="@drawable/sxflipped"
+                        app:layout_constraintVertical_bias="0.0"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
@@ -197,7 +201,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView_QiHui"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="match_parent"
                 android:backgroundTint="@color/dark_gray"
                 android:layout_marginBottom="10dp"
                 app:cardCornerRadius="15dp">
@@ -221,13 +225,13 @@
                     <TextView
                         android:id="@+id/textView_Description_QiHui"
                         android:layout_width="215dp"
-                        android:layout_height="71dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:layout_weight="1"
                         android:ellipsize="none"
                         android:maxLines="4"
                         android:scrollHorizontally="false"
-                        android:text="Hello I am Jun Hong and I like to procrastinate"
+                        android:text="Hello I am Jun Hong and I like to procrastinate wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww dwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww wwwwwwwwwwwwwwwwwwwwwwwwwwwww"
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -242,7 +246,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:src="@drawable/qihui" />
+                        android:src="@drawable/qihui"
+                        app:layout_constraintVertical_bias="0.0"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
@@ -250,7 +255,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView_Elysia"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="match_parent"
                 android:backgroundTint="@color/dark_gray"
                 android:layout_marginBottom="10dp"
                 app:cardCornerRadius="15dp">
@@ -274,13 +279,13 @@
                     <TextView
                         android:id="@+id/textView_Description_Elysia"
                         android:layout_width="215dp"
-                        android:layout_height="71dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:layout_weight="1"
                         android:ellipsize="none"
                         android:maxLines="4"
                         android:scrollHorizontally="false"
-                        android:text="Hello I am Jun Hong and I like to procrastinate"
+                        android:text="Hello I am Jun Hong and I like to procrastinate wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww dwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww wwwwwwwwwwwwwwwwwwwwwwwwwwwww"
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -295,7 +300,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:src="@drawable/elysia" />
+                        android:src="@drawable/elysia"
+                        app:layout_constraintVertical_bias="0.0"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
@@ -303,7 +309,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView_SzeYing"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="match_parent"
                 android:backgroundTint="@color/dark_gray"
                 android:layout_marginBottom="10dp"
                 app:cardCornerRadius="15dp">
@@ -327,13 +333,13 @@
                     <TextView
                         android:id="@+id/textView_Description_SzeYing"
                         android:layout_width="215dp"
-                        android:layout_height="71dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:layout_weight="1"
                         android:ellipsize="none"
                         android:maxLines="4"
                         android:scrollHorizontally="false"
-                        android:text="Hello I am Jun Hong and I like to procrastinate"
+                        android:text="Hello I am Jun Hong and I like to procrastinate wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww dwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww wwwwwwwwwwwwwwwwwwwwwwwwwwwww"
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -348,7 +354,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:src="@drawable/szeying" />
+                        android:src="@drawable/szeying"
+                        app:layout_constraintVertical_bias="0.0"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
