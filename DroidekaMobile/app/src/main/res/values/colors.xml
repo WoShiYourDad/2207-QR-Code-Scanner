@@ -12,5 +12,5 @@
     <color name="dark_gray">#4f4f4f</color>
     <color name="light_gray">#707070</color>
     <color name="background_gray">#3C3C3D</color>
-
+    <color name="mtrl_textinput_default_box_stroke_color">#fff</color>
 </resources>

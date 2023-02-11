@@ -20,6 +20,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +45,7 @@ public class GenerateQR_Activity extends AppCompatActivity {
     private Button generateQRBtn;
     private QRGEncoder qrgEncoder;
     private Bitmap bitmap;
-    private Button shareBtn;
+    private ImageButton shareBtn;
     public static final int PERMISSIONS_REQUEST_READ_CONTACTS = 1;
 
     @Override
