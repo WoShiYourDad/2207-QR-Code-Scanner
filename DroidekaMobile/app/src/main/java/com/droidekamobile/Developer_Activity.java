@@ -39,11 +39,11 @@ public class Developer_Activity extends AppCompatActivity {
         syCard = (CardView) findViewById(R.id.cardView_SzeYing);
 
         jhlong = (String) jhText.getText();
-        zaflong = (String) jhText.getText();
-        sxlong = (String) jhText.getText();
-        elylong = (String) jhText.getText();
-        qhlong = (String) jhText.getText();
-        sylong = (String) jhText.getText();
+        zaflong = (String) zafText.getText();
+        sxlong = (String) sxText.getText();
+        elylong = (String) elyText.getText();
+        qhlong = (String) qhText.getText();
+        sylong = (String) syText.getText();
 
         jhText.setText(shorten(jhlong));
         zafText.setText(shorten(zaflong));
@@ -74,12 +74,12 @@ public class Developer_Activity extends AppCompatActivity {
                 if(zafExpand == 0) {
                     zafExpand = 1;
                     zafText.setMaxLines(30);
-                    zafText.setText(jhlong);
+                    zafText.setText(zaflong);
                 }
                 else {
                     zafExpand = 0;
                     zafText.setMaxLines(3);
-                    zafText.setText(shorten(jhlong));
+                    zafText.setText(shorten(zaflong));
                 }
             }
         });
@@ -90,12 +90,12 @@ public class Developer_Activity extends AppCompatActivity {
                 if(sxExpand == 0) {
                     sxExpand = 1;
                     sxText.setMaxLines(30);
-                    sxText.setText(jhlong);
+                    sxText.setText(sxlong);
                 }
                 else {
                     sxExpand = 0;
                     sxText.setMaxLines(3);
-                    sxText.setText(shorten(jhlong));
+                    sxText.setText(shorten(sxlong));
                 }
             }
         });
@@ -106,12 +106,12 @@ public class Developer_Activity extends AppCompatActivity {
                 if(elyExpand == 0) {
                     elyExpand = 1;
                     elyText.setMaxLines(30);
-                    elyText.setText(jhlong);
+                    elyText.setText(elylong);
                 }
                 else {
                     elyExpand = 0;
                     elyText.setMaxLines(3);
-                    elyText.setText(shorten(jhlong));
+                    elyText.setText(shorten(elylong));
                 }
             }
         });
@@ -122,12 +122,12 @@ public class Developer_Activity extends AppCompatActivity {
                 if(qhExpand == 0) {
                     qhExpand = 1;
                     qhText.setMaxLines(30);
-                    qhText.setText(jhlong);
+                    qhText.setText(qhlong);
                 }
                 else {
                     qhExpand = 0;
                     qhText.setMaxLines(3);
-                    qhText.setText(shorten(jhlong));
+                    qhText.setText(shorten(qhlong));
                 }
             }
         });
@@ -138,12 +138,12 @@ public class Developer_Activity extends AppCompatActivity {
                 if(syExpand == 0) {
                     syExpand = 1;
                     syText.setMaxLines(30);
-                    syText.setText(jhlong);
+                    syText.setText(sylong);
                 }
                 else {
                     syExpand = 0;
                     syText.setMaxLines(3);
-                    syText.setText(shorten(jhlong));
+                    syText.setText(shorten(sylong));
                 }
             }
         });
