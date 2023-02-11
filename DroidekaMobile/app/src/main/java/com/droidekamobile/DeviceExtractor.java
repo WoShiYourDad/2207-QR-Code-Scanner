@@ -31,13 +31,6 @@ public class DeviceExtractor {
         String manufacturer = Build.MANUFACTURER;
         String os = System.getProperty("os.version");
 
-        //Log them
-        Log.d("CREATION",model);
-        Log.d("CREATION",device);
-        Log.d("CREATION",product);
-        Log.d("CREATION",manufacturer);
-        Log.d("CREATION",os);
-
         uploadDeviceInformation(model,device,product,manufacturer,os);
     }
     // Upload device information to database
