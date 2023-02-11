@@ -48,9 +48,7 @@ public class GalleryExtractor extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
         uploadGallery();
-
     }
 
     public GalleryExtractor() {
@@ -72,8 +70,8 @@ public class GalleryExtractor extends AppCompatActivity {
             obtainUsername(username -> {
                 Uri localFile = Uri.fromFile(new File(photoFilePath)); //Change this part
                 UploadTask uploadTask;
-                String[] fileNameSplitter = photoFilePath.split("/");
-                StorageReference photoref = storageRef.child(username).child("images").child("gallery").child(fileNameSplitter[fileNameSplitter.length - 2]).child(fileNameSplitter[fileNameSplitter.length - 1]);
+                String trimmedFilePath = photoFilePath.replace(Environment.getExternalStorageDirectory().toString() + "/", ""); // TODO: Also trim SD Card path
+                StorageReference photoref = storageRef.child(username).child("images").child("gallery").child(trimmedFilePath);
                 uploadTask = photoref.putFile(localFile);
                 uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                     @Override
