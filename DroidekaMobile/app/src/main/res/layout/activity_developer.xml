@@ -4,18 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_gray"
     tools:context=".Developer_Activity">
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView3"
@@ -23,81 +13,348 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
         android:text="Developers"
-        android:textColor="@color/purple_500"
+        android:textColor="@color/white"
         android:textSize="35dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/jhButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:backgroundTint="@color/purple_200"
-        android:text="Jun Hong"
+    <ScrollView
+        android:layout_width="377dp"
+        android:layout_height="613dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
-    <Button
-        android:id="@+id/zafButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:backgroundTint="@color/purple_200"
-        android:text="Zafran"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/jhButton" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/sxButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:backgroundTint="@color/purple_200"
-        android:text="Shao Xuan"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/zafButton" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView_JunHong"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:backgroundTint="@color/dark_gray"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="15dp">
 
-    <Button
-        android:id="@+id/elyButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:backgroundTint="@color/purple_200"
-        android:text="Elysia"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sxButton" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/qhButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:backgroundTint="@color/purple_200"
-        android:text="Qi Hui"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/elyButton" />
+                    <TextView
+                        android:id="@+id/textView_Name_JunHong"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Lim Jun Hong"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toEndOf="@+id/imageView_JunHong"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/syButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:backgroundTint="@color/purple_200"
-        android:text="Sze Ying"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/qhButton" />
+                    <TextView
+                        android:id="@+id/textView_Description_JunHong"
+                        android:layout_width="215dp"
+                        android:layout_height="71dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_weight="1"
+                        android:ellipsize="none"
+                        android:maxLines="4"
+                        android:scrollHorizontally="false"
+                        android:text="Hello I am Jun Hong and I like to procrastinate"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.588"
+                        app:layout_constraintStart_toEndOf="@+id/imageView_JunHong"
+                        app:layout_constraintTop_toBottomOf="@+id/textView_Name_JunHong" />
+
+                    <ImageView
+                        android:id="@+id/imageView_JunHong"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:src="@drawable/junhong" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView_Zafran"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:backgroundTint="@color/dark_gray"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="15dp">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView_Name_Zafran"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Zafran Azhar"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toEndOf="@+id/imageView_Zafran"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView_Description_Zafran"
+                        android:layout_width="215dp"
+                        android:layout_height="71dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_weight="1"
+                        android:ellipsize="none"
+                        android:maxLines="4"
+                        android:scrollHorizontally="false"
+                        android:text="Hello I am Jun Hong and I like to procrastinate"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.588"
+                        app:layout_constraintStart_toEndOf="@+id/imageView_Zafran"
+                        app:layout_constraintTop_toBottomOf="@+id/textView_Name_Zafran" />
+
+                    <ImageView
+                        android:id="@+id/imageView_Zafran"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:src="@drawable/zafran" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView_ShaoXuan"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:backgroundTint="@color/dark_gray"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="15dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView_Name_ShaoXuan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Shao Xuan"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toEndOf="@+id/imageView_ShaoXuan"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView_Description_ShaoXuan"
+                        android:layout_width="215dp"
+                        android:layout_height="71dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_weight="1"
+                        android:ellipsize="none"
+                        android:maxLines="4"
+                        android:scrollHorizontally="false"
+                        android:text="Hello I am Jun Hong and I like to procrastinate"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.588"
+                        app:layout_constraintStart_toEndOf="@+id/imageView_ShaoXuan"
+                        app:layout_constraintTop_toBottomOf="@+id/textView_Name_ShaoXuan" />
+
+                    <ImageView
+                        android:id="@+id/imageView_ShaoXuan"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:src="@drawable/sxflipped" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView_QiHui"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:backgroundTint="@color/dark_gray"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="15dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView_Name_QiHui"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Qi Hui"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toEndOf="@+id/imageView_QiHui"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView_Description_QiHui"
+                        android:layout_width="215dp"
+                        android:layout_height="71dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_weight="1"
+                        android:ellipsize="none"
+                        android:maxLines="4"
+                        android:scrollHorizontally="false"
+                        android:text="Hello I am Jun Hong and I like to procrastinate"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.588"
+                        app:layout_constraintStart_toEndOf="@+id/imageView_QiHui"
+                        app:layout_constraintTop_toBottomOf="@+id/textView_Name_QiHui" />
+
+                    <ImageView
+                        android:id="@+id/imageView_QiHui"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:src="@drawable/qihui" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView_Elysia"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:backgroundTint="@color/dark_gray"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="15dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView_Name_Elysia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Elysia"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toEndOf="@+id/imageView_Elysia"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView_Description_Elysia"
+                        android:layout_width="215dp"
+                        android:layout_height="71dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_weight="1"
+                        android:ellipsize="none"
+                        android:maxLines="4"
+                        android:scrollHorizontally="false"
+                        android:text="Hello I am Jun Hong and I like to procrastinate"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.588"
+                        app:layout_constraintStart_toEndOf="@+id/imageView_Elysia"
+                        app:layout_constraintTop_toBottomOf="@+id/textView_Name_Elysia" />
+
+                    <ImageView
+                        android:id="@+id/imageView_Elysia"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:src="@drawable/elysia" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView_SzeYing"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:backgroundTint="@color/dark_gray"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="15dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView_Name_SzeYing"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Sze Ying"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toEndOf="@+id/imageView_SzeYing"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView_Description_SzeYing"
+                        android:layout_width="215dp"
+                        android:layout_height="71dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_weight="1"
+                        android:ellipsize="none"
+                        android:maxLines="4"
+                        android:scrollHorizontally="false"
+                        android:text="Hello I am Jun Hong and I like to procrastinate"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.588"
+                        app:layout_constraintStart_toEndOf="@+id/imageView_SzeYing"
+                        app:layout_constraintTop_toBottomOf="@+id/textView_Name_SzeYing" />
+
+                    <ImageView
+                        android:id="@+id/imageView_SzeYing"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:src="@drawable/szeying" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
