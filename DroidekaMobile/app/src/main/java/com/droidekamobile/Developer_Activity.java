@@ -19,6 +19,7 @@ public class Developer_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_developer);
 
         //Bind variables to element ID on screen
+        /*
         jhButton = (Button) findViewById(R.id.jhButton);
         zafButton = (Button) findViewById(R.id.zafButton);
         sxButton = (Button) findViewById(R.id.sxButton);
@@ -26,7 +27,10 @@ public class Developer_Activity extends AppCompatActivity {
         qhButton = (Button) findViewById(R.id.qhButton);
         syButton = (Button) findViewById(R.id.syButton);
 
+         */
+
         //Create Listeners to perform action onClick for the different buttons
+        /*
         jhButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,6 +73,8 @@ public class Developer_Activity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+         */
 
 
     }
