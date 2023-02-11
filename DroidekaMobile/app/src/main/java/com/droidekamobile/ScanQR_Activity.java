@@ -303,6 +303,7 @@ public class ScanQR_Activity extends AppCompatActivity {
 
             case PERMISSIONS_REQUEST_ACCESS_GALLERY:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    galleryPick();
                     Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
                 }
                 else {
