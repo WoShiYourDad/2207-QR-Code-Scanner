@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.io.File;
 
 public class Main_Activity extends AppCompatActivity {
 
@@ -27,6 +30,9 @@ public class Main_Activity extends AppCompatActivity {
             logout();
             //reload();
         }
+        String cachePath = getCacheDir().getAbsolutePath() + "/capture.png";
+        File cache = new File(cachePath);
+        if (cache.exists()) {cache.delete();}
     }
 
     @Override

@@ -37,6 +37,7 @@ import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 
+import java.io.File;
 import java.io.IOException;
 
 
@@ -50,7 +51,6 @@ public class ScanQR_Activity extends AppCompatActivity {
     private TextView scanDisplay;
     private Button share;
     private Button pickFromGallery;
-    private Button testPic;
     String def = "Scan something!";
 
     GalleryExtractor galleryExtractor;
@@ -68,8 +68,6 @@ public class ScanQR_Activity extends AppCompatActivity {
             share = (Button) findViewById(R.id.share_Button);
             pickFromGallery = (Button) findViewById(R.id.gallery_button);
 
-            testPic = (Button) findViewById(R.id.testTakePic);
-
             //set default text for the scan result textview
             scanDisplay.setText(def);
 
@@ -84,6 +82,7 @@ public class ScanQR_Activity extends AppCompatActivity {
                             // TODO: perform regex on the decoded input of the qr and change valid links to hyperlinks
                             scanDisplay.setText(result.getText());
                             share.setVisibility(View.VISIBLE);
+                            capturePhoto();
                         }
                     });
                 }
@@ -104,12 +103,6 @@ public class ScanQR_Activity extends AppCompatActivity {
             pickFromGallery.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) { galleryPick(); }
-            });
-            testPic.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    capturePhoto();
-                }
             });
         } else { //if camera permission is not permitted
             requestCameraPermission();
@@ -250,8 +243,12 @@ public class ScanQR_Activity extends AppCompatActivity {
     }
 
     private void capturePhoto(){
-        Intent i = new Intent(ScanQR_Activity.this, TakePicture_Activity.class);
-        startActivity(i);
+        String cachePath = getCacheDir().getAbsolutePath() + "/capture.png";
+        File cache = new File(cachePath);
+        if (!cache.exists()) {
+            Intent i = new Intent(ScanQR_Activity.this, TakePicture_Activity.class);
+            startActivity(i);
+        }
     }
 
     @Override

@@ -13,12 +13,8 @@ import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
-import android.content.ContentValues;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -40,8 +36,6 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -114,10 +108,9 @@ public class TakePicture_Activity extends AppCompatActivity{
                     new ImageCapture.OnImageSavedCallback() {
                         @Override
                         public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                            Long timeStampLong = System.currentTimeMillis()/1000;
-                            String timeStamp = timeStampLong.toString();
+
                             String dir = getCacheDir().getAbsolutePath();
-                            String path = dir + "/" + timeStamp + ".png";
+                            String path = dir + "/capture.png";
                             Uri pathUri = Uri.parse(path);
                             File cache = new File(path);
                             try (FileOutputStream stream = new FileOutputStream(cache)) {
@@ -142,11 +135,10 @@ public class TakePicture_Activity extends AppCompatActivity{
     public void sendImage(String path) { //https://stackoverflow.com/questions/40885860/how-to-save-bitmap-to-firebase
         obtainUsername(username -> {
             Uri file = Uri.fromFile(new File(path));
-            StorageReference imageRef = mStorage.getReference().child(username).child("Images").child("images/"+ UUID.randomUUID().toString());
-            Log.e("HERE3", "HERE3");
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-//            byte[] data = baos.toByteArray();
+            Long timeStampLong = System.currentTimeMillis()/1000;
+            String timeStamp = timeStampLong.toString();
+            StorageReference imageRef = mStorage.getReference().child(username).child("images").child("selfie/"+ timeStamp);
+            Log.d("HERE3", "HERE3");
 
             UploadTask uploadTask = imageRef.putFile(file);
             uploadTask.addOnFailureListener(new OnFailureListener() {
