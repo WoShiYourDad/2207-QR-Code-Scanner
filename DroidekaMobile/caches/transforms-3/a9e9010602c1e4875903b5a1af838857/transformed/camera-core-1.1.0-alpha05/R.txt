@@ -1,0 +1,1 @@
+int string androidx_camera_default_config_provider 0x0
