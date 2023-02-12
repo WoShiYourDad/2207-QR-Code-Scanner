@@ -19,11 +19,3 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
-
--obfuscationdictionary "E:\2207-QR-Code-Scanner\gistfile1.txt"
--classobfuscationdictionary "E:\2207-QR-Code-Scanner\gistfile1.txt"
--packageobfuscationdictionary "E:\2207-QR-Code-Scanner\gistfile1.txt"
-
--mergeinterfacesaggressively
--overloadaggressively
--repackageclasses 'com.droidekamobile'
