@@ -294,7 +294,7 @@
                         android:ellipsize="none"
                         android:maxLines="4"
                         android:scrollHorizontally="false"
-                        android:text="Hello I am Elysia and..."
+                        android:text="Hello, I am Elysia! Currently pursuing my studies at SIT in the bachelor degree ICT (IS). \nI enjoy gaming and listening to music. \nHope you will enjoy using this application that all of us made :D"
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
