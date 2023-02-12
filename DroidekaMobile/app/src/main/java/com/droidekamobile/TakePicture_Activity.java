@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.droidekamobile.models.UserData;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -170,7 +171,7 @@ public class TakePicture_Activity extends AppCompatActivity{
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    User user = dataSnapshot.getValue(User.class);
+                    UserData user = dataSnapshot.getValue(UserData.class);
                     if (user.getEmail().equals(email)) {
                         String username = user.getUsername();
                         firebaseCallback.onCallback(username);

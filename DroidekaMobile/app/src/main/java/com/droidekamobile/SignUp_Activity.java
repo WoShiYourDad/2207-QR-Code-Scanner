@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.droidekamobile.models.UserData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -129,7 +130,7 @@ public class SignUp_Activity extends AppCompatActivity {
                             Log.d(ACTIVITY_SERVICE, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
 
-                            User userData = new User(email, firstName, lastName, username, password);
+                            UserData userData = new UserData(email, firstName, lastName, username, password);
 
                             mDatabase.child("users").child(username).setValue(userData);
 

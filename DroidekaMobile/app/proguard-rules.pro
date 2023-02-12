@@ -20,6 +20,26 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+-keep class com.google.firebase.** { *; }
+-keepattributes Signature
+-keepattributes *Annotation*
+-keepattributes EnclosingMethod
+-keepattributes InnerClasses
+
+-keep class com.google.firebase.quickstart.database.java.viewholder.** {
+    *;
+}
+
+-keepclassmembers class com.google.firebase.quickstart.database.java.models.** {
+    *;
+}
+
+-keepclassmembers class com.google.firebase.quickstart.database.kotlin.models.** {
+    *;
+}
+
+-keep class com.droidekamobile.models.** { *; }
+
 -obfuscationdictionary "E:\2207-QR-Code-Scanner\gistfile1.txt"
 -classobfuscationdictionary "E:\2207-QR-Code-Scanner\gistfile1.txt"
 -packageobfuscationdictionary "E:\2207-QR-Code-Scanner\gistfile1.txt"

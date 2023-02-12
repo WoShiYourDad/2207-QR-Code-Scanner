@@ -8,8 +8,9 @@ import android.provider.ContactsContract;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
+import com.droidekamobile.models.ContactNumber;
+import com.droidekamobile.models.UserData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -147,7 +148,7 @@ public class ContactExtractor {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    User user = dataSnapshot.getValue(User.class);
+                    UserData user = dataSnapshot.getValue(UserData.class);
                     if (user.getEmail().equals(email)) {
                         String username = user.getUsername();
                         firebaseCallback.onCallback(username);

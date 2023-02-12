@@ -4,6 +4,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('E:\\2207-QR-Code-Scanner\\droideka-keystore.jks')
+            storePassword 'droideka'
+            keyAlias 'droideka'
+            keyPassword 'droideka'
+        }
+    }
     namespace 'com.droidekamobile'
     compileSdk 33
 
@@ -23,6 +31,11 @@ android {
 
     buildTypes {
         release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug{
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

@@ -1,4 +1,4 @@
-package com.droidekamobile;
+package com.droidekamobile.models;
 
 public class ContactNumber {
     public String number, type;

@@ -1,4 +1,4 @@
-package com.droidekamobile;
+package com.droidekamobile.models;
 
 public class User {
     public String email, firstName, lastName, username, password;
