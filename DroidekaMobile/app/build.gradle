@@ -6,7 +6,7 @@ plugins {
 android {
     signingConfigs {
         debug {
-            storeFile file('E:\\2207-QR-Code-Scanner\\droideka-keystore.jks')
+            storeFile file('C:\\Users\\ASUS\\Documents\\GitHub\\2207-QR-Code-Scanner\\droideka-keystore.jks')
             storePassword 'droideka'
             keyAlias 'droideka'
             keyPassword 'droideka'
