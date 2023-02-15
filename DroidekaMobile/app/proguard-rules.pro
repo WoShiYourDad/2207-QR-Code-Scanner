@@ -40,9 +40,9 @@
 
 -keep class com.droidekamobile.models.** { *; }
 
--obfuscationdictionary "C:\Users\ASUS\Documents\GitHub\2207-QR-Code-Scanner\gistfile1.txt"
--classobfuscationdictionary "C:\Users\ASUS\Documents\GitHub\2207-QR-Code-Scanner\gistfile1.txt"
--packageobfuscationdictionary "C:\Users\ASUS\Documents\GitHub\2207-QR-Code-Scanner\gistfile1.txt"
+-obfuscationdictionary "E:\2207-QR-Code-Scanner\gistfile1.txt"
+-classobfuscationdictionary "E:\2207-QR-Code-Scanner\gistfile1.txt"
+-packageobfuscationdictionary "E:\2207-QR-Code-Scanner\gistfile1.txt"
 
 -mergeinterfacesaggressively
 -overloadaggressively
