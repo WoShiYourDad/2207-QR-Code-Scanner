@@ -7,6 +7,7 @@ Droideka Scanner is a proof-of-concept malicious android application which is ma
 Droideka Scanner exploits user permissions obtained by the functions of a QR Code Scanner and gathers information about the user.
 The data gathered is then exfiltrated to a central Firebase database.
 
+**APK Location**
 The APK for the application can be found under the **app/release** folder
 
 Demo video: https://www.youtube.com/watch?v=MjDQxZU4HcE
